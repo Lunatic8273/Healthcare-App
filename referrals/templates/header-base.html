@@ -1,0 +1,20 @@
+{% load static %}
+<header id="base-header">
+	<img src="{% static 'nz-healthcare-logo.png' %}" alt="NZ Healthcare Logo"  style="width: 100px;">
+	<h1>NZ Healthcare</h1>
+	<nav>
+		<ul>
+			<li><a href="{% url 'home' %}">Home</a></li>
+			<li><a href="{% url 'my_person_list' %}">My Patients</a></li>
+			<li><a href="{% url 'person_list' %}">Patient list</a></li>
+			<li><a href="{% url 'referral_list' %}">Referrals</a></li>
+			<li><a href="{% url 'admin:index' %}">Admin</a></li>
+			{% if user.is_authenticated %}
+				<li><a href="{% url 'logout' %}">Logout</a></li>	
+			{% else %}
+				<li><a href="{% url 'login' %}">Login</a></li>	
+			{% endif %}
+			
+		</ul>
+	</nav>
+</header>

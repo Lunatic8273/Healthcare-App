@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referral Details - NZ Healthcare</title>
+    <link rel="stylesheet" href="{% static 'referrals/home.css' %}">
+	<link rel="icon" type="image/x-icon" href="{% static 'nz-healthcare-logo.png' %}">
+</head>
+<body>
+	<div class="page-container">
+		<div class="content-wrap">
+			{% include 'header-base.html' %}
+			<header>
+				<h1>Referral Details</h1>
+			</header>
+
+			<main>
+				<div class="list-div">
+					<div>
+						<table id="referral-details-table">
+							<tr>
+								<th colspan="3" style="background-color: #3e8085;">Referral ID: {{ referral.pk }}</th>
+							</tr>
+							<tr>
+								<th style="text-align:right">Patient:</th>
+								<td style="text-align:left">{{ person.first_name }} {{ person.last_name }}</td>
+							</tr>
+							<tr>
+								<th style="text-align:right">Referrer:</th>
+								<td style="text-align:left"> {{ referral.referrer }}</td>
+							</tr>
+								<th style="text-align:right">Date of Referral:</th>
+								<td style="text-align:left"> {{ referral.referral_date }}</td>
+							</tr>
+							<tr>
+								<th style="text-align:right">Referral Reason:</th>
+								<td style="text-align:left"> {{ referral.referral_reason }}</td>
+							</tr>
+							<tr>
+								<th colspan="3">Referral Note:</th>
+							</tr>
+							<tr>
+								<td colspan="3"> {{ referral.note }}</td>
+							</tr>
+							{% if referral.document %}
+								<tr>
+									<th colspan="3"><h2>Document:</h2></th>
+								</tr>
+								<tr>
+									<th colspan="1"><h2 style="text-align: right;">Open:</h2></th>
+									<td colspan="2" class="tr-highlight" onclick="window.location.href='{% url 'view_document' referral_id=referral.pk %}'"; style="cursor: pointer;"> {{ referral.document }}</td>
+								</tr>
+							{% else %}
+								<tr>
+									<th colspan="3">No Document Attached</th>
+								</tr>
+							{% endif %}
+						</table>
+					</div>
+					<div class="list-buttons">
+						<a href="{% url 'referral_edit' person_id=person.pk referral_id=referral.pk %}"><button>Edit Referral</button></a>
+						<a href="{% url 'referral_delete' person_id=person.pk referral_id=referral.pk %}"><button>Delete Referral</button></a>
+						<a href="{% url 'person_detail' pk=person.pk %}"><button>Patient Details</button></a>
+						<a href="{% url 'referral_list' %}"><button>Referral List</button></a>
+					</div>
+				</div>   
+				
+			</main>
+		</div>
+		{% include 'footer-base.html' %}
+	</div>
+</body>
+</html>

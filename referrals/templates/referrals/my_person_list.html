@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Person List - NZ Healthcare</title>
+	<link rel="stylesheet" href="{% static 'referrals/home.css' %}">
+	<link rel="icon" type="image/x-icon" href="{% static 'nz-healthcare-logo.png' %}">
+</head>
+
+
+<body>
+	<div class="page-container">
+		<div class="content-wrap">
+			{% include 'header-base.html' %}
+			<header>
+				{% if user.is_authenticated and user.is_staff == False %}
+					<h1>Dr {{user.first_name}} {{user.last_name}}'s - Patient List:</h1>
+				{% else %}
+					<h1>Hello {{user}}</h1>
+				{% endif %}
+			</header>
+
+			<main>
+				<div class="list-div">
+					{% if user.is_authenticated and user.is_staff == False %}
+						<table>
+							{% if persons %} 		
+								<tr>
+									<th>ID</th>
+									<th>Name</th>
+									<th>Date of Birth</th>
+								</tr>
+							{% else %}	
+								<h1>No Patients</h1>
+							{% endif %}
+							{% for person in persons %}
+								<tr class="tr-highlight" onclick="window.location.href='{% url 'person_detail' pk=person.pk %}'"; id="add-patient" style="cursor: pointer;">
+									<td> {{ person.pk }}</td>
+									<td> {{ person.first_name }} {{ person.last_name }}</td>
+									<td> {{ person.date_of_birth }}</td>
+								</tr>
+							{% endfor %}
+						</table>
+					{% else %}
+						<h3>Sorry {{user}}</h3>
+						<p>You are currently logged in as admin, only users who are doctors may access their patient lists.<p>
+					{% endif %}
+				</div>
+			</main>
+		</div>
+		{% include 'footer-base.html' %}
+	</div>	
+</body>
+
+
+</html>
