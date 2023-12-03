@@ -5,7 +5,7 @@
 	<nav>
 		<ul>
 			<li><a href="{% url 'home' %}">Home</a></li>
-			<li><a href="{% url 'my_person_list' %}">My Patients</a></li>
+			<li><a href="{% url 'my_doctor_page' %}">Dr {{user.first_name}} {{user.last_name}}</a></li>
 			<li><a href="{% url 'person_list' %}">Patient list</a></li>
 			<li><a href="{% url 'referral_list' %}">Referrals</a></li>
 			<li><a href="{% url 'admin:index' %}">Admin</a></li>

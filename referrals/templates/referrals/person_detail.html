@@ -59,7 +59,7 @@
 									{% for referral in referrals %}
 										<tr class="tr-highlight" onclick="window.location.href='{% url 'referral_detail' referral_id=referral.pk %}'"; style="cursor: pointer;">
 											<td> {{ referral.pk }} </td>
-											<td> {{ referral.referrer_name }} </td>
+											<td> {{ referral.referrer }} </td>
 											<td> {{ referral.referral_date }} </td>
 										</tr>
 									{% endfor %}

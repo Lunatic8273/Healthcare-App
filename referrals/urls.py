@@ -15,6 +15,7 @@ urlpatterns = [
     path('patient_new/', views.person_new, name='person_new'),
     path('patient_new/<int:pk>/', views.person_new, name='person_new'),
     path('referrals/', views.referral_list, name='referral_list'), 
+    path('my_referrals/', views.my_referral_list, name='my_referral_list'), 
     path('referrals_edit/', views.referral_edit, name='referral_edit'),
     path('referrals_edit/<int:person_id>/<int:referral_id>/', views.referral_edit, name='referral_edit'),
     path('referrals_new/', views.referral_new, name='referral_new'),
@@ -25,6 +26,7 @@ urlpatterns = [
     path('referrals/', views.referral_delete, name='referral_delete'),
     path('referrals/<int:person_id>/<int:referral_id>/', views.referral_delete, name='referral_delete'),
     path('login/', views.login_view, name='login_view'),
+    path('my_page/', views.my_doctor_page, name='my_doctor_page'),
     
 ] 
 

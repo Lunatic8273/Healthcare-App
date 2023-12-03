@@ -83,9 +83,19 @@ def person_delete(request, pk):
     return redirect('person_list')
 
 @login_required
+def my_doctor_page(request):
+    return render(request, 'referrals/doctor_page.html')
+
+@login_required
 def referral_list(request):  
     referrals = Referral.objects.all()
     return render(request, 'referrals/referral_list.html', {'referrals': referrals})
+
+@login_required
+def my_referral_list(request):  
+    doctor = get_object_or_404(Doctor, user=request.user)
+    referrals = Referral.objects.filter(referrer=doctor.id)
+    return render(request, 'referrals/my_referral_list.html', {'doctor':doctor,'referrals': referrals})
 
 @login_required
 def referral_detail(request, referral_id):

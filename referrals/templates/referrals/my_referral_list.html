@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Person List - NZ Healthcare</title>
+	<link rel="stylesheet" href="{% static 'referrals/home.css' %}">
+	<link rel="icon" type="image/x-icon" href="{% static 'nz-healthcare-logo.png' %}">
+</head>
+<body>
+	<div class="page-container">
+		<div class="content-wrap">
+			{% include 'header-base.html' %}
+			<header>
+				{% if user.is_authenticated and user.is_staff == False %}
+                <h1>Dr {{user.first_name}} {{user.last_name}}'s - referral List:</h1>
+				{% else %}
+					<h1>Hello {{user}}</h1>
+				{% endif %}
+			</header>
+
+			<main>
+				<div class="list-div">
+					{% if user.is_authenticated and user.is_staff == False %}
+						<table role="table" class="referral-table">
+							{% if referrals %} 	
+								<thead role="rowgroup">	
+									<tr role="row">
+										<th role="columnheader"></th>
+										<th role="columnheader">Referral ID</th>
+										<th role="columnheader">Referrer</th>
+										<th role="columnheader">Client Name</th>
+										<th role="columnheader">Referral Date</th>
+									</tr>
+								</thead>
+							{% else %}
+								<h1>No Referrals</h1>
+							{% endif %}
+							<tbody role="rowgroup">
+								{% for referral in referrals %}
+									<tr role="row" class="tr-highlight" onclick="window.location.href='{% url 'referral_detail' referral_id=referral.pk %}'"; style="cursor: pointer;">
+										<th>Referral <br> <p>(Click to Open)</p></th>
+										<td role="cell"> {{ referral.pk }}</td>
+										<td role="cell"> {{ referral.referrer }}</td>
+										<td role="cell"> {{ referral.person.first_name }} {{ referral.person.last_name }} </td>
+										<td role="cell"> {{ referral.referral_date }} </td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					{% else %}
+						<h3>Sorry {{user}}</h3>
+						<p>You are currently logged in as admin, only users who are doctors may access the list of referrals.<p>
+					{% endif %}
+				</div>
+			</main>
+		</div>
+		{% include 'footer-base.html' %}
+	</div>
+</body>
+</html>
