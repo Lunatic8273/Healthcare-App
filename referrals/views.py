@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Person, Referral, Doctor
-from .forms import PersonForm, ReferralForm
+from .forms import PersonForm, ReferralForm, GlobalReferralForm
 from django.contrib.auth.decorators import login_required
 from django.http import  HttpResponse
 import os
@@ -122,12 +122,25 @@ def referral_new(request, person_id):
         form = ReferralForm(request.POST)
         if form.is_valid():
             referral = form.save(commit=False)
+            referral.GP = request.user
             referral.person = person
             referral.save()
             return render(request, 'referrals/referral_detail.html',{'person': person, 'referral':referral})
     else:
         form = ReferralForm()
     return render(request, 'referrals/referral_new.html', {'form': form, 'person': person})
+
+@login_required
+def global_referral_new(request):
+    if request.method == "POST":
+        form = GlobalReferralForm(request.POST)
+        if form.is_valid():
+            referral = form.save(commit=False)
+            referral.save()
+            return render(request, 'referrals/referral_detail.html',{'referral':referral})
+    else:
+        form = GlobalReferralForm()
+    return render(request, 'referrals/referral_new.html', {'form': form})
 
 @login_required
 def referral_edit(request, person_id, referral_id):

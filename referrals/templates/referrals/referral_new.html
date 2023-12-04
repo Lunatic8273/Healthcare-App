@@ -23,7 +23,11 @@
 						{{ form.as_p }}
 						<div class="list-buttons">
 							<a><button type="submit">Save changes</button></a>
-							<a id="cancel-btn" href="{% url 'person_detail' pk=person.pk %}"><button type="button">Cancel</button></a>
+							{% if person %}
+								<a id="cancel-btn" href="{% url 'person_detail' pk=person.pk %}"><button type="button">Cancel</button></a>
+							{% else %}
+								<a id="cancel-btn" href="{% url 'referral_list' %}"><button type="button">Cancel</button></a>
+							{% endif %}
 						</div>		
 					</form>
 				</div>

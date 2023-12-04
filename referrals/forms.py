@@ -9,4 +9,10 @@ class PersonForm(forms.ModelForm):
 class ReferralForm(forms.ModelForm):
     class Meta:
         model = Referral
-        fields = ['referral_date', 'referrer', 'referral_reason', 'note', 'document']
+        fields = ['referral_date', 'referral_reason', 'note', 'document']
+
+
+class GlobalReferralForm(forms.ModelForm):
+    class Meta:
+        model = Referral
+        fields = ['person', 'referrer', 'referral_date', 'referral_reason', 'note', 'document']

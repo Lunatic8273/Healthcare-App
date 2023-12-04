@@ -20,6 +20,8 @@ urlpatterns = [
     path('referrals_edit/<int:person_id>/<int:referral_id>/', views.referral_edit, name='referral_edit'),
     path('referrals_new/', views.referral_new, name='referral_new'),
     path('referrals_new/<int:person_id>/', views.referral_new, name='referral_new'),
+    path('global_referral_new/', views.global_referral_new, name='global_referral_new'),
+    
     path('referrals_detail/', views.referral_detail, name='referral_detail'),
     path('referrals_detail/<int:referral_id>/', views.referral_detail, name='referral_detail'),
     path('view_document/<int:referral_id>/', views.view_document, name='view_document'),

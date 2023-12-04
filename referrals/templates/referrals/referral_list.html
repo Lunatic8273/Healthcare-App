@@ -49,6 +49,9 @@
 								{% endfor %}
 							</tbody>
 						</table>
+						<div class="list-buttons">
+							<a href="{% url 'global_referral_new' %}"><button>Add a referral</button></a>
+						</div>
 					{% else %}
 						<h3>Sorry {{user}}</h3>
 						<p>You are currently logged in as admin, only users who are doctors may access the list of referrals.<p>

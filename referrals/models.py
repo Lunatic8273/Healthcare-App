@@ -12,7 +12,7 @@ class Doctor(models.Model):
 
 class Person(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    GP = models.ForeignKey(Doctor, null=True, on_delete=models.CASCADE)
+    GP = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=15)
@@ -23,7 +23,7 @@ class Person(models.Model):
 
 class Referral(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
-    referrer = models.ForeignKey(Doctor, null=True, on_delete=models.CASCADE)
+    referrer = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     referral_date = models.DateField()
     referral_reason = models.CharField(max_length=255)
     note = models.TextField()
