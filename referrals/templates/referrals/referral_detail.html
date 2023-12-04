@@ -60,7 +60,7 @@
 						</table>
 					</div>
 					<div class="list-buttons">
-						<a href="{% url 'referral_edit' person_id=referral.person.pk referral_id=referral.pk %}"><button>Edit Referral</button></a>
+						<a href="{% url 'global_referral_edit' person_id=person.pk referral_id=referral.pk %}"><button>Edit Referral</button></a>
 						<a href="{% url 'referral_delete' person_id=person.pk referral_id=referral.pk %}"><button>Delete Referral</button></a>
 						<a href="{% url 'person_detail' pk=person.pk %}"><button>Patient Details</button></a>
 						<a href="{% url 'referral_list' %}"><button>Referral List</button></a>

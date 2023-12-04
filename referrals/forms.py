@@ -6,11 +6,15 @@ class PersonForm(forms.ModelForm):
         model = Person
         fields = ['first_name', 'last_name', 'phone_number', 'date_of_birth', 'GP']
 
-class ReferralForm(forms.ModelForm):
+class PatientAddReferralForm(forms.ModelForm):
     class Meta:
         model = Referral
         fields = ['referral_date', 'referral_reason', 'note', 'document']
 
+class DoctorAddReferralForm(forms.ModelForm):
+    class Meta:
+        model = Referral
+        fields = ['person', 'referral_date', 'referral_reason', 'note', 'document']
 
 class GlobalReferralForm(forms.ModelForm):
     class Meta:

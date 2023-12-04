@@ -1,4 +1,3 @@
-from django.urls import path
 from . import views
 from django.urls import path, include
 
@@ -16,23 +15,17 @@ urlpatterns = [
     path('patient_new/<int:pk>/', views.person_new, name='person_new'),
     path('referrals/', views.referral_list, name='referral_list'), 
     path('my_referrals/', views.my_referral_list, name='my_referral_list'), 
-    path('referrals_edit/', views.referral_edit, name='referral_edit'),
-    path('referrals_edit/<int:person_id>/<int:referral_id>/', views.referral_edit, name='referral_edit'),
-    path('referrals_new/', views.referral_new, name='referral_new'),
-    path('referrals_new/<int:person_id>/', views.referral_new, name='referral_new'),
+    path('referrals_edit/<int:person_id>/<int:referral_id>/', views.global_referral_edit, name='global_referral_edit'),
+    path('referrals_new/', views.doctor_referral_new, name='doctor_referral_new'),
+    path('referrals_new/<int:person_id>/', views.patient_referral_new, name='patient_referral_new'),
     path('global_referral_new/', views.global_referral_new, name='global_referral_new'),
-    
     path('referrals_detail/', views.referral_detail, name='referral_detail'),
     path('referrals_detail/<int:referral_id>/', views.referral_detail, name='referral_detail'),
     path('view_document/<int:referral_id>/', views.view_document, name='view_document'),
     path('referrals/', views.referral_delete, name='referral_delete'),
     path('referrals/<int:person_id>/<int:referral_id>/', views.referral_delete, name='referral_delete'),
+    path('about_page', views.about_page, name='about_page'),
+    path('our_staff', views.our_staff, name='our_staff'),
     path('login/', views.login_view, name='login_view'),
     path('my_page/', views.my_doctor_page, name='my_doctor_page'),
-    
 ] 
-
-#path('login/', views.login_view, name='login_view')
-#path('persons/', views.person_cancel, name='person_cancel'),
-#path('', views.home, name='home'),
-#path('', include('nz_healthcare.urls')),
