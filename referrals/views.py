@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Person, Referral, Doctor
-from .forms import PersonForm, DoctorAddReferralForm, GlobalReferralForm, PatientAddReferralForm
+from .forms import PersonForm, DoctorAddReferralForm, GlobalReferralForm, PatientAddReferralForm, DoctorForm, DoctorAddPersonForm
 from django.contrib.auth.decorators import login_required
 from django.http import  HttpResponse
 import os
 
+#---------LOGIN---------
 @login_required
 def login_view(request):
     if request.method == 'POST':
@@ -23,6 +24,7 @@ def login_view(request):
             messages.error(request, 'Invalid username or password.')
     return render(request, 'referrals/home.html')
 
+#---------PAGES---------
 def home(request):
     return render(request, 'referrals/home.html')
 
@@ -32,7 +34,8 @@ def about_page(request):
 def our_staff(request):
     doctors = Doctor.objects.all()
     return render(request, 'our_staff.html', {'doctors':doctors})
-    
+
+#---------PERSON---------
 @login_required
 def person_cancel(request):
     return render(request, 'referrals/person_list.html')    
@@ -82,17 +85,52 @@ def person_edit(request, pk):
         form = PersonForm(instance=person)
     return render(request, 'referrals/person_edit.html', {'form': form, 'person': person})
  
-
 @login_required
 def person_delete(request, pk):
     person = get_object_or_404(Person, pk=pk)
     person.delete()
     return redirect('person_list')
 
+#---------DOCTOR---------
+@login_required
+def doctor_add_person_new(request):
+    doctor = get_object_or_404(Doctor, user=request.user)
+    if request.method == "POST":
+        form = DoctorAddPersonForm(request.POST)
+        if form.is_valid():
+            person = form.save(commit=False)
+            person.user = request.user
+            person.GP = doctor
+            person.save()
+            return redirect('person_detail', pk=person.pk)
+    else:
+        form = DoctorAddPersonForm()
+    return render(request, 'referrals/person_new.html', {'form': form})
+
 @login_required
 def my_doctor_page(request):
-    return render(request, 'referrals/doctor_page.html')
+    doctor = get_object_or_404(Doctor, user=request.user)
+    return render(request, 'referrals/doctor_page.html',{'doctor': doctor})
 
+def doctor_page(request, pk):
+    doctor = get_object_or_404(Doctor, pk=pk)
+    return render(request, 'referrals/doctor_page.html',{'doctor': doctor})
+
+@login_required
+def edit_doctor(request):
+    doctor = get_object_or_404(Doctor, user=request.user)
+    if request.method == "POST":
+        form = DoctorForm(request.POST, request.FILES, instance=doctor)
+        if form.is_valid():
+            doctor = form.save(commit=False)
+            doctor.user = request.user
+            doctor.save()
+            return redirect('my_doctor_page')
+    else:
+        form = DoctorForm(instance=doctor)
+    return render(request, 'referrals/doctor_edit.html', {'form': form, 'doctor':doctor})
+
+#---------REFERRAL---------
 @login_required
 def referral_list(request):  
     referrals = Referral.objects.all()
@@ -166,39 +204,6 @@ def global_referral_new(request):
         form = GlobalReferralForm()
     return render(request, 'referrals/referral_new.html', {'form': form})
 
-
-
-"""
-@login_required
-def patient_referral_edit(request, person_id, referral_id):
-    referral = get_object_or_404(Referral, id=referral_id, person__id=person_id)
-    if request.method == "POST":
-        form = PatientAddReferralForm(request.POST, request.FILES, instance=referral)
-        if form.is_valid():
-            referral = form.save(commit=False)
-            referral.person = referral.person
-            referral.save()
-            return redirect('referral_detail', referral_id=referral.pk)
-    else:
-        form = PatientAddReferralForm(instance=referral)
-    return render(request, 'referrals/referral_edit.html', {'form': form, 'person': referral.person, 'referral':referral})
-
-
-@login_required
-def doctor_referral_edit(request, person_id, referral_id):
-    referral = get_object_or_404(Referral, id=referral_id, person__id=person_id)
-    if request.method == "POST":
-        form = DoctorAddReferralForm(request.POST, request.FILES, instance=referral)
-        if form.is_valid():
-            referral = form.save(commit=False)
-            referral.person = referral.person
-            referral.save()
-            return redirect('referral_detail', referral_id=referral.pk)
-    else:
-        form = DoctorAddReferralForm(instance=referral)
-    return render(request, 'referrals/referral_edit.html', {'form': form, 'person': referral.person, 'referral':referral})
-
-"""
 @login_required
 def global_referral_edit(request, person_id, referral_id):
     referral = get_object_or_404(Referral, id=referral_id, person__id=person_id)
@@ -211,7 +216,7 @@ def global_referral_edit(request, person_id, referral_id):
             return redirect('referral_detail', referral_id=referral.pk)
     else:
         form = GlobalReferralForm(instance=referral)
-    return render(request, 'referrals/referral_edit.html', {'form': form, 'person': referral.person, 'referral':referral})
+    return render(request, 'referrals/referral_edit.html', {'form': form, 'person':referral.person, 'referral':referral})
 
 @login_required
 def referral_delete(request, person_id, referral_id):

@@ -15,29 +15,29 @@
 		<div class="content-wrap">
 			{% include 'header-base.html' %}
 			<header>
-					<h1>NZ Healthcare - Staff List:</h1>
+				<h1>NZ Healthcare - Staff List:</h1>
 			</header>
 
 			<main>
 				<div class="list-div">
-						<table>
-							{% if doctors %} 		
-								<tr>
-									<th>ID</th>
-									<th>Doctor</th>
-									<th>Medical Center</th>
-								</tr>
-							{% else %}	
-								<h1>No Patients</h1>
-							{% endif %}
-							{% for doctor in doctors %}
-								<tr class="tr-highlight"; style="cursor: pointer;">
-									<td> {{ doctor.pk }}</td>
-									<td> {{ doctor.first_name }} {{ doctor.last_name }}</td>
-									<td> {{ doctor.medical_center }} </td>
-								</tr>
-							{% endfor %}
-						</table>
+					<table>
+						{% if doctors %} 		
+							<tr>
+								<th>ID</th>
+								<th>Doctor</th>
+								<th>Medical Center</th>
+							</tr>
+						{% else %}	
+							<h1>No Patients</h1>
+						{% endif %}
+						{% for doctor in doctors %}
+							<tr class="tr-highlight"; onclick="window.location.href='{% url 'doctor_page' pk=doctor.pk %}'"; style="cursor: pointer;">
+								<td> {{ doctor.pk }}</td>
+								<td> {{ doctor.first_name }} {{ doctor.last_name }}</td>
+								<td> {{ doctor.medical_center }} </td>
+							</tr>
+						{% endfor %}
+					</table>
 				</div>
 			</main>
 		</div>

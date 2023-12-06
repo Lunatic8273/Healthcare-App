@@ -1,24 +1,36 @@
 {% load static %}
+{% load has_group %}
+<head>
+
+</head>
 <header id="base-header">
 	<img src="{% static 'nz-healthcare-logo.png' %}" alt="NZ Healthcare Logo"  style="width: 100px;">
 	<h1>NZ Healthcare</h1>
 	<nav>
 		<ul>
-			{% if user.is_authenticated %}
+			{% if user.is_staff %}
 				<li><a href="{% url 'home' %}">Home</a></li>
+				<li><a href="{% url 'our_staff' %}">Staff</a></li>
+				<li><a href="{% url 'about_page' %}">About Us</a></li>
+				<li><a href="{% url 'admin:index' %}">Admin</a></li>
+				<li><a href="{% url 'logout' %}">Logout</a></li>	
+			{% elif user|has_group:"Patients" %}
+				<li><a href="{% url 'home' %}">Home</a></li>
+				<li><a href="{% url 'our_staff' %}">Staff</a></li>
+				<li><a href="{% url 'about_page' %}">About Us</a></li>
+				<li><a href="{% url 'patient_profile' %}">Profile</a></li>
+				<li><a href="{% url 'logout' %}">Logout</a></li>	
+			{% elif user|has_group:"Doctors" %}
 				<li><a href="{% url 'my_doctor_page' %}">{{user.first_name}} {{user.last_name}}</a></li>
 				<li><a href="{% url 'person_list' %}">Patient list</a></li>
 				<li><a href="{% url 'referral_list' %}">Referrals</a></li>
-				<li><a href="{% url 'admin:index' %}">Admin</a></li>
 				<li><a href="{% url 'logout' %}">Logout</a></li>	
 			{% else %}
 				<li><a href="{% url 'home' %}">Home</a></li>
-				<li><a href="{% url 'about_page' %}">About Us</a></li>
 				<li><a href="{% url 'our_staff' %}">Staff</a></li>
-				<li><a href="{% url 'admin:index' %}">Admin</a></li>
+				<li><a href="{% url 'about_page' %}">About Us</a></li>
 				<li><a href="{% url 'login' %}">Login</a></li>	
 			{% endif %}
-			
 		</ul>
 	</nav>
 </header>

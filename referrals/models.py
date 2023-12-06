@@ -6,6 +6,7 @@ class Doctor(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     medical_center = models.CharField(max_length=100)
+    portrait_img = models.ImageField(null=True, upload_to ='uploads/') 
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'

@@ -14,24 +14,14 @@
 		<div class="content-wrap">
 			{% include 'header-base.html' %}
 			<header>
-				<h1>Home</h1>
+				<h1>About Us</h1>
 			</header>
 			<main>
 				<div class="list-div">
-					<img src="{% static 'nz-healthcare-logo.png' %}" alt="NZ Healthcare Logo">
-					<h1>Welcome to NZ Healthcare</h1>
+					<h1>NZ Healthcare</h1>
 					<p>
 						This is the about page of the Health Management Referral System.
 					</p>
-
-					{% if user.is_authenticated %}
-						<p>Welcome, {{ user.username }}!</p>
-					{% else %}
-						<p>
-							To use the system, you need to: <br>
-							<a href="{% url 'login_view' %}"><button style="margin-top:1em; padding:12px;">log in</button></a>
-						</p>
-					{% endif %}
 				</div>
 			</main>
 		</div>
