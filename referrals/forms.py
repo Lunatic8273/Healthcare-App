@@ -4,7 +4,12 @@ from .models import Person, Referral, Doctor
 class PersonForm(forms.ModelForm):
     class Meta:
         model = Person
-        fields = ['first_name', 'last_name', 'phone_number', 'date_of_birth', 'GP']
+        fields = ['user', 'first_name', 'last_name', 'phone_number', 'date_of_birth', 'GP']
+
+class PatientEditForm(forms.ModelForm):
+    class Meta:
+        model = Person
+        fields = ['first_name', 'last_name', 'phone_number', 'date_of_birth']
 
 class DoctorAddPersonForm(forms.ModelForm):
     class Meta:

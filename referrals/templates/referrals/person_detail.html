@@ -1,4 +1,5 @@
 {% load static %}
+{% load has_group %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,10 +40,16 @@
 								<td>{{ person.GP }}</td>
 							</tr>
 						</table>
-						<div class="list-buttons detail-list-buttons">
-							<a href="{% url 'person_edit' pk=person.pk %}"><button>Edit Details</button></a>
-							<a href="{% url 'person_delete' pk=person.pk %}"><button>Delete Patient</button></a>
-						</div>
+						{% if user|has_group:"Doctors" %}
+							<div class="list-buttons detail-list-buttons">
+								<a href="{% url 'person_edit' pk=person.pk %}"><button>Edit Details</button></a>
+							</div>
+						{% elif user.is_staff %}
+							<div class="list-buttons detail-list-buttons">
+								<a href="{% url 'person_edit' pk=person.pk %}"><button>Edit Details</button></a>
+								<a href="{% url 'person_delete' pk=person.pk %}"><button>Delete Patient</button></a>
+							</div>
+						{% endif %}
 					</div>
 					<div class="list-div-2">
 						<table>
@@ -68,10 +75,16 @@
 								<h1>No Referrals</h1>
 							{% endif %} 
 						</table>
-						<div class="list-buttons detail-list-buttons">
-							<a href="{% url 'patient_referral_new' person_id=person.pk%}"><button>Add a referral</button></a>
-							<a href="{% url 'person_list' %}"><button>Back to Patient List</button></a>
-						</div>
+						{% if user|has_group:"Doctors" %}
+							<div class="list-buttons detail-list-buttons">
+								<a href="{% url 'patient_referral_new' person_id=person.pk%}"><button>Add a referral</button></a>
+								<a href="{% url 'person_list' %}"><button>Back to Patient List</button></a>
+							</div>
+						{% elif user.is_staff %}
+							<div class="list-buttons detail-list-buttons">
+								<a href="{% url 'person_list' %}"><button>Back to Patient List</button></a>
+							</div> 	
+						{% endif %}
 					</div>
 				</div>
 			</main>

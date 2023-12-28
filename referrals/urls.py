@@ -12,9 +12,13 @@ urlpatterns = [
     path('our_staff', views.our_staff, name='our_staff'),
     #Login
     path('login/', views.login_view, name='login_view'),
+    #Patient Profile Page
+    path('patient_profile/', views.patient_profile, name='patient_profile'),
     #Doctor Profile Page
     path('my_page/', views.my_doctor_page, name='my_doctor_page'),
     path('my_page/<int:pk>/', views.doctor_page, name='doctor_page'),
+    #Add Doctor details as a the doctor
+    path('add_doctor/', views.add_doctor, name='add_doctor'),
     #Edit Doctor details as a the doctor
     path('edit_doctor/', views.edit_doctor, name='edit_doctor'),
     #Patient List
@@ -28,6 +32,7 @@ urlpatterns = [
     #Patient Edit
     path('patients_edit/', views.person_edit, name='person_edit'),
     path('patients_edit/<int:pk>/', views.person_edit, name='person_edit'),
+    path('patient_person_edit/<int:pk>/', views.patient_person_edit, name='patient_person_edit'),
     #Patient Cancel Form
     path('patients/', views.person_cancel, name='person_cancel'),
     #Create new Patient

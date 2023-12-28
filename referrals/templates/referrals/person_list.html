@@ -1,4 +1,5 @@
 {% load static %}
+{% load has_group %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -15,16 +16,35 @@
 		<div class="content-wrap">
 			{% include 'header-base.html' %}
 			<header>
-				{% if user.is_authenticated and user.is_staff == False %}
+				{% if user.is_staff %}
 					<h1>NZ Healthcare - Patient List:</h1>
-				{% else %}
-					<h1>Hello {{user}}</h1>
 				{% endif %}
 			</header>
 
 			<main>
 				<div class="list-div">
-					{% if user.is_authenticated and user.is_staff == False %}
+					{% if user|has_group:"Doctors" %}
+						<table>
+							{% if persons %} 		
+								<tr>
+									<th>ID</th>
+									<th>Patient</th>
+									<th>Patient's GP</th>
+									<th>Date of Birth</th>
+								</tr>
+							{% else %}	
+								<h1>No Patients</h1>
+							{% endif %}
+							{% for person in persons %}
+								<tr class="tr-highlight" onclick="window.location.href='{% url 'person_detail' pk=person.pk %}'"; id="add-patient" style="cursor: pointer;">
+									<td> {{ person.pk }}</td>
+									<td> {{ person.first_name }} {{ person.last_name }}</td>
+									<td> {{ person.GP }} </td>
+									<td> {{ person.date_of_birth }}</td>
+								</tr>
+							{% endfor %}
+						</table>
+					{% elif user.is_staff %}
 						<table>
 							{% if persons %} 		
 								<tr>
@@ -48,9 +68,6 @@
 						<div class="list-buttons">
 							<a href="{% url 'person_new' %}"><button>Add a Patient</button></a>	
 						</div>
-					{% else %}
-						<h3>Sorry {{user}}</h3>
-						<p>You are currently logged in as admin, only users who are doctors may access their patient lists.<p>
 					{% endif %}
 				</div>
 			</main>

@@ -1,4 +1,5 @@
 {% load static %}
+{% load has_group %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -15,7 +16,7 @@
 		<div class="content-wrap">
 			{% include 'header-base.html' %}
 			<header>
-				{% if user.is_authenticated and user.is_staff == False %}
+				{% if user|has_group:"Doctors" %}
 					<h1>Dr {{user.first_name}} {{user.last_name}}'s - Patient List:</h1>
 				{% else %}
 					<h1>Hello {{user}}</h1>
@@ -24,7 +25,7 @@
 
 			<main>
 				<div class="list-div">
-					{% if user.is_authenticated and user.is_staff == False %}
+					{% if user|has_group:"Doctors" %}
 						<table>
 							{% if persons %} 		
 								<tr>
@@ -46,9 +47,6 @@
 						<div class="list-buttons">
 							<a href="{% url 'doctor_add_person_new' %}"><button>Add a Patient</button></a>	
 						</div>
-					{% else %}
-						<h3>Sorry {{user}}</h3>
-						<p>You are currently logged in as admin, only users who are doctors may access their patient lists.<p>
 					{% endif %}
 				</div>
 			</main>

@@ -29,6 +29,10 @@
 						<a href="{% url 'my_person_list' %}"><button>My Patients</button></a>
 						<a href="{% url 'my_referral_list' %}"><button>My Referrals</button></a>
 					</div>
+				{% else %}
+					<div class="list-buttons">
+						<a href="{% url 'our_staff' %}"><button>Back</button></a>
+					</div>
 				{% endif %}
 			</main>
 		</div>

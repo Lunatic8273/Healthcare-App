@@ -24,7 +24,8 @@
 						{% if doctors %} 		
 							<tr>
 								<th>ID</th>
-								<th>Doctor</th>
+								<th>Role</th>
+								<th>Name</th>
 								<th>Medical Center</th>
 							</tr>
 						{% else %}	
@@ -33,6 +34,7 @@
 						{% for doctor in doctors %}
 							<tr class="tr-highlight"; onclick="window.location.href='{% url 'doctor_page' pk=doctor.pk %}'"; style="cursor: pointer;">
 								<td> {{ doctor.pk }}</td>
+								<td> GP </td>
 								<td> {{ doctor.first_name }} {{ doctor.last_name }}</td>
 								<td> {{ doctor.medical_center }} </td>
 							</tr>

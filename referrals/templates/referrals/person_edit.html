@@ -1,4 +1,5 @@
 {% load static %}
+{% load has_group %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +24,11 @@
 						{{ form.as_p }}
 						<div class="list-buttons">
 							<a><button type="submit">Save changes</button></a>
-							<a id="cancel-btn" href="{% url 'person_detail'  pk=person.pk %}"><button type="button">Cancel</button></a>
+							{% if user|has_group:"Patients" %}
+								<a id="cancel-btn" href="{% url 'patient_profile' %}"><button type="button">Cancel</button></a>
+							{% elif user|has_group:"Doctors" %}
+								<a id="cancel-btn" href="{% url 'person_detail'  pk=person.pk %}"><button type="button">Cancel</button></a>
+							{% endif %}
 						</div>
 					</form>
 				</div>

@@ -1,0 +1,91 @@
+{% load static %}
+{% load has_group %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - NZ Healthcare</title>
+	<link rel="stylesheet" href="{% static 'referrals/home.css' %}">
+	<link rel="icon" type="image/x-icon" href="{% static 'nz-healthcare-logo.png' %}">
+</head>
+
+<body>
+	<div class="page-container">
+		<div class="content-wrap">
+			{% include 'header-base.html' %}
+			<header>
+				<h1>Patient: {{ person.first_name }} {{ person.last_name }}</h1>
+			</header>
+			<main>
+				<div class="details-content">
+					<div class="list-div">
+						<h1>Patient Details:</h1>
+						<table id="patient-details-table">
+							<tr>
+								<th>Patient Name:</th>
+								<td>{{ person.first_name }} {{ person.last_name }}</td>
+							</tr>
+							<tr>
+								<th>Phone Number:</th>
+								<td>{{ person.phone_number }}</td>
+							</tr>
+							<tr>
+								<th>Date of Birth:</th>
+								<td>{{ person.date_of_birth }}</td>
+							</tr>
+							<tr>
+								<th>Patient's GP:</th>
+								<td>{{ person.GP }}</td>
+							</tr>
+						</table>
+						<div class="list-buttons detail-list-buttons">
+							{% if user|has_group:"Doctors" %}
+								<a href="{% url 'person_edit' pk=person.pk %}"><button>Edit Details</button></a>
+								<a href="{% url 'person_delete' pk=person.pk %}"><button>Delete Patient</button></a>
+							{% elif user|has_group:"Patients" %}
+								<a href="{% url 'patient_person_edit' pk=person.pk %}"><button>Edit Details</button></a>
+							{% endif %} 
+						</div>
+					</div>
+					<div class="list-div-2">
+						<table>
+							{% if referrals %} 		
+								{% for referral in referrals|slice:":1" %}
+									{% if referral.pk %} 	
+										<h1>Patient's Referrals:</h1>
+										<tr>
+											<th>Referral ID</th>
+											<th>Referrer</th>
+											<th>Referral Date</th>
+										</tr>
+									{% endif %} 
+									{% for referral in referrals %}
+										<tr class="tr-highlight" onclick="window.location.href='{% url 'referral_detail' referral_id=referral.pk %}'"; style="cursor: pointer;">
+											<td> {{ referral.pk }} </td>
+											<td> {{ referral.referrer }} </td>
+											<td> {{ referral.referral_date }} </td>
+										</tr>
+									{% endfor %}
+								{% endfor %}
+							{% else %} 	
+								<h1>No Referrals</h1>
+							{% endif %} 
+						</table>
+						<div class="list-buttons detail-list-buttons">
+							{% if user|has_group:"Doctors" %}
+								<a href="{% url 'patient_referral_new' person_id=person.pk%}"><button>Add a referral</button></a>
+								<a href="{% url 'person_list' %}"><button>Back to Patient List</button></a>
+							{% else %}
+								<a href="{% url 'home' %}"><button>Home</button></a>
+							{% endif %} 
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+		{% include 'footer-base.html' %}
+	</div>
+    
+</body>
+</html>

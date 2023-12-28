@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Referral - NZ Healthcare</title>
+	<link rel="stylesheet" href="{% static 'referrals/home.css' %}">
+	<link rel="icon" type="image/x-icon" href="{% static 'nz-healthcare-logo.png' %}">
+</head>
+<body>
+	<div class="page-container">
+		<div class="content-wrap">
+			{% include 'header-base.html' %}
+			<header>
+				<h1>Register Doctor</h1>
+			</header>
+			<main>
+                
+                {{ user.pk }}
+                
+				<div class="list-div">
+					<form method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						{{ form.as_p }}
+						<div class="list-buttons">
+							<a><button type="submit">Save changes</button></a>
+							<a id="cancel-btn" href="{% url 'my_doctor_page' %}"><button type="button">Cancel</button></a>
+						</div>		
+					</form>
+				</div>
+			</main>
+		</div>
+		{% include 'footer-base.html' %}
+	</div>
+</body>
+</html>
