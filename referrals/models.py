@@ -11,7 +11,7 @@ class Doctor(models.Model):
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 
-class Person(models.Model):
+class Patient(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     GP = models.ForeignKey(Doctor, default=None,on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100)
@@ -23,7 +23,7 @@ class Person(models.Model):
         return f'{self.first_name} {self.last_name}'
 
 class Referral(models.Model):
-    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     referrer = models.ForeignKey(Doctor, default=None, on_delete=models.CASCADE)
     referral_date = models.DateField()
     referral_reason = models.CharField(max_length=255)
@@ -31,5 +31,5 @@ class Referral(models.Model):
     document = models.FileField(upload_to='documents/', blank=True)
 
     def __str__(self):
-        return f'Referral for {self.person} on {self.referral_date}'
+        return f'Referral for {self.patient} on {self.referral_date}'
 

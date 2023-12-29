@@ -1,19 +1,19 @@
 from django import forms
-from .models import Person, Referral, Doctor
+from .models import Patient, Referral, Doctor
 
-class PersonForm(forms.ModelForm):
+class PatientForm(forms.ModelForm):
     class Meta:
-        model = Person
+        model = Patient
         fields = ['user', 'first_name', 'last_name', 'phone_number', 'date_of_birth', 'GP']
 
 class PatientEditForm(forms.ModelForm):
     class Meta:
-        model = Person
+        model = Patient
         fields = ['first_name', 'last_name', 'phone_number', 'date_of_birth']
 
-class DoctorAddPersonForm(forms.ModelForm):
+class DoctorAddPatientForm(forms.ModelForm):
     class Meta:
-        model = Person
+        model = Patient
         fields = ['first_name', 'last_name', 'phone_number', 'date_of_birth']
 
 class PatientAddReferralForm(forms.ModelForm):
@@ -24,12 +24,12 @@ class PatientAddReferralForm(forms.ModelForm):
 class DoctorAddReferralForm(forms.ModelForm):
     class Meta:
         model = Referral
-        fields = ['person', 'referral_date', 'referral_reason', 'note', 'document']
+        fields = ['patient', 'referral_date', 'referral_reason', 'note', 'document']
 
 class GlobalReferralForm(forms.ModelForm):
     class Meta:
         model = Referral
-        fields = ['person', 'referrer', 'referral_date', 'referral_reason', 'note', 'document']
+        fields = ['patient', 'referrer', 'referral_date', 'referral_reason', 'note', 'document']
 
 class DoctorForm(forms.ModelForm):
     class Meta:

@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Person, Referral, Doctor
-from .forms import PersonForm, PatientEditForm, DoctorAddReferralForm, GlobalReferralForm, PatientAddReferralForm, DoctorForm, DoctorAddPersonForm
+from .models import Patient, Referral, Doctor
+from .forms import PatientForm, PatientEditForm, DoctorAddReferralForm, GlobalReferralForm, PatientAddReferralForm, DoctorForm, DoctorAddPatientForm
 from django.contrib.auth.decorators import login_required
 from django.http import  HttpResponse
 import os
@@ -37,97 +37,97 @@ def our_staff(request):
 
 #---------PATIENT PROFILE PAGE---------
 def patient_profile(request):
-    person = get_object_or_404(Person, user=request.user)
-    referrals = Referral.objects.filter(person=person)
-    return render(request, 'patients/patient_profile.html', {'person':person, 'referrals': referrals})
+    patient = get_object_or_404(Patient, user=request.user)
+    referrals = Referral.objects.filter(patient=patient)
+    return render(request, 'patients/patient_profile.html', {'patient':patient, 'referrals': referrals})
 
-#---------PERSON---------
+#---------patient---------
 @login_required
-def person_cancel(request):
-    return render(request, 'referrals/person_list.html')    
+def patient_cancel(request):
+    return render(request, 'referrals/patient_list.html')    
 
 @login_required
-def my_person_list(request):
+def my_patient_list(request):
     doctor = get_object_or_404(Doctor, user=request.user)
-    persons = Person.objects.filter(GP=doctor.id)
-    return render(request, 'referrals/my_person_list.html', {'doctor':doctor, 'persons': persons})
+    patients = patient.objects.filter(GP=doctor.id)
+    return render(request, 'referrals/my_patient_list.html', {'doctor':doctor, 'patients': patients})
 
 @login_required
-def person_list(request):
-    persons = Person.objects.all()
-    return render(request, 'referrals/person_list.html', {'persons': persons})
+def patient_list(request):
+    patients = Patient.objects.all()
+    return render(request, 'referrals/patient_list.html', {'patients': patients})
 
 @login_required
-def person_detail(request, pk):
-    person = get_object_or_404(Person, pk=pk)
-    referrals = Referral.objects.filter(person=person)
-    return render(request, 'referrals/person_detail.html', {'person': person, 'referrals': referrals})
+def patient_detail(request, pk):
+    patient = get_object_or_404(Patient, pk=pk)
+    referrals = Referral.objects.filter(patient=patient)
+    return render(request, 'referrals/patient_detail.html', {'patient': patient, 'referrals': referrals})
 
 @login_required
-def person_new(request):
+def patient_new(request):
     if request.method == "POST":
-        form = PersonForm(request.POST)
+        form = PatientForm(request.POST)
         if form.is_valid():
-            person = form.save(commit=False)
-            person.user = request.user
-            person.save()
-            return redirect('person_detail', pk=person.pk)
+            patient = form.save(commit=False)
+            patient.user = request.user
+            patient.save()
+            return redirect('patient_detail', pk=patient.pk)
     else:
-        form = PersonForm()
-    return render(request, 'referrals/person_new.html', {'form': form})
+        form = PatientForm()
+    return render(request, 'referrals/patient_new.html', {'form': form})
 
 @login_required
-def person_edit(request, pk):
-    person = get_object_or_404(Person, pk=pk)
+def patient_edit(request, pk):
+    patient = get_object_or_404(Patient, pk=pk)
     if request.method == "POST":
-        form = PersonForm(request.POST, instance=person)
+        form = PatientForm(request.POST, instance=patient)
         if form.is_valid():
-            person = form.save(commit=False)
-            person.user = request.user
-            person.save()
-            return redirect('person_detail', pk=person.pk)
+            patient = form.save(commit=False)
+            patient.user = request.user
+            patient.save()
+            return redirect('patient_detail', pk=patient.pk)
     else:
-        form = PersonForm(instance=person)
-    return render(request, 'referrals/person_edit.html', {'form': form, 'person': person})
+        form = PatientForm(instance=patient)
+    return render(request, 'referrals/patient_edit.html', {'form': form, 'patient': patient})
 
 @login_required
-def patient_person_edit(request, pk):
-    person = get_object_or_404(Person, pk=pk)
+def patient_patient_edit(request, pk):
+    patient = get_object_or_404(Patient, pk=pk)
     if request.method == "POST":
-        form = PatientEditForm(request.POST, instance=person)
+        form = PatientEditForm(request.POST, instance=patient)
         if form.is_valid():
-            person = form.save(commit=False)
-            person.user = request.user
-            person.save()
-            return redirect('person_detail', pk=person.pk)
+            patient = form.save(commit=False)
+            patient.user = request.user
+            patient.save()
+            return redirect('patient_detail', pk=patient.pk)
     else:
-        form = PatientEditForm(instance=person)
-    return render(request, 'referrals/person_edit.html', {'form': form, 'person': person})
+        form = PatientEditForm(instance=patient)
+    return render(request, 'referrals/patient_edit.html', {'form': form, 'patient': patient})
  
 @login_required
-def person_delete(request, pk):
-    person = get_object_or_404(Person, pk=pk)
-    person.delete()
-    return redirect('person_list')
+def patient_delete(request, pk):
+    patient = get_object_or_404(Patient, pk=pk)
+    patient.delete()
+    return redirect('patient_list')
 
 #---------DOCTOR---------
 def is_doctor(user):
     return user.groups.filter(name='Doctors').exists()
 
 @login_required
-def doctor_add_person_new(request):
+def doctor_add_patient_new(request):
     doctor = get_object_or_404(Doctor, user=request.user)
     if request.method == "POST":
-        form = DoctorAddPersonForm(request.POST)
+        form = DoctorAddPatientForm(request.POST)
         if form.is_valid():
-            person = form.save(commit=False)
-            person.user = request.user
-            person.GP = doctor
-            person.save()
-            return redirect('person_detail', pk=person.pk)
+            patient = form.save(commit=False)
+            patient.user = request.user
+            patient.GP = doctor
+            patient.save()
+            return redirect('patient_detail', pk=patient.pk)
     else:
-        form = DoctorAddPersonForm()
-    return render(request, 'referrals/person_new.html', {'form': form})
+        form = DoctorAddPatientForm()
+    return render(request, 'referrals/patient_new.html', {'form': form})
 
 def doctor_page(request, pk):
     doctor = get_object_or_404(Doctor, pk=pk)
@@ -189,8 +189,8 @@ def my_referral_list(request):
 @login_required
 def referral_detail(request, referral_id):
     referral = get_object_or_404(Referral, id=referral_id)
-    person = get_object_or_404(Person, id=referral.person.id)
-    return render(request, 'referrals/referral_detail.html', {'person': person, 'referral': referral})
+    patient = get_object_or_404(patient, id=referral.patient.id)
+    return render(request, 'referrals/referral_detail.html', {'patient': patient, 'referral': referral})
     
 @login_required
 def view_document(request, referral_id):
@@ -205,20 +205,20 @@ def view_document(request, referral_id):
 
 
 @login_required
-def patient_referral_new(request, person_id):
+def patient_referral_new(request, patient_id):
     doctor = get_object_or_404(Doctor, user=request.user)
-    person = get_object_or_404(Person, id=person_id)
+    patient = get_object_or_404(patient, id=patient_id)
     if request.method == "POST":
         form = PatientAddReferralForm(request.POST)
         if form.is_valid():
             referral = form.save(commit=False)
             referral.referrer = doctor
-            referral.person = person
+            referral.patient = patient
             referral.save()
-            return render(request, 'referrals/referral_detail.html',{'person': person, 'referral':referral})
+            return render(request, 'referrals/referral_detail.html',{'patient': patient, 'referral':referral})
     else:
         form = PatientAddReferralForm()
-    return render(request, 'referrals/referral_new.html', {'form': form, 'person': person})
+    return render(request, 'referrals/referral_new.html', {'form': form, 'patient': patient})
 
 @login_required
 def doctor_referral_new(request):
@@ -228,9 +228,9 @@ def doctor_referral_new(request):
         if form.is_valid():
             referral = form.save(commit=False)
             referral.referrer = doctor
-            person = referral.person
+            patient = referral.patient
             referral.save()
-            return render(request, 'referrals/referral_detail.html',{'person': person, 'referral':referral})
+            return render(request, 'referrals/referral_detail.html',{'patient': patient, 'referral':referral})
     else:
         form = DoctorAddReferralForm()
     return render(request, 'referrals/referral_new.html', {'form': form})
@@ -241,30 +241,30 @@ def global_referral_new(request):
         form = GlobalReferralForm(request.POST)
         if form.is_valid():
             referral = form.save(commit=False)
-            person = referral.person
+            patient = referral.patient
             referral.save()
-            return render(request, 'referrals/referral_detail.html',{'person':person,'referral':referral})
+            return render(request, 'referrals/referral_detail.html',{'patient':patient,'referral':referral})
     else:
         form = GlobalReferralForm()
     return render(request, 'referrals/referral_new.html', {'form': form})
 
 @login_required
-def global_referral_edit(request, person_id, referral_id):
-    referral = get_object_or_404(Referral, id=referral_id, person__id=person_id)
+def global_referral_edit(request, patient_id, referral_id):
+    referral = get_object_or_404(Referral, id=referral_id, patient__id=patient_id)
     if request.method == "POST":
         form = GlobalReferralForm(request.POST, request.FILES, instance=referral)
         if form.is_valid():
             referral = form.save(commit=False)
-            referral.person = referral.person
+            referral.patient = referral.patient
             referral.save()
             return redirect('referral_detail', referral_id=referral.pk)
     else:
         form = GlobalReferralForm(instance=referral)
-    return render(request, 'referrals/referral_edit.html', {'form': form, 'person':referral.person, 'referral':referral})
+    return render(request, 'referrals/referral_edit.html', {'form': form, 'patient':referral.patient, 'referral':referral})
 
 @login_required
-def referral_delete(request, person_id, referral_id):
-    referral = get_object_or_404(Referral, id=referral_id, person__id=person_id)
+def referral_delete(request, patient_id, referral_id):
+    referral = get_object_or_404(Referral, id=referral_id, patient__id=patient_id)
     referral.delete()
     return redirect('referral_list')
 
