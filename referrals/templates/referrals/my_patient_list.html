@@ -5,7 +5,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Person List - NZ Healthcare</title>
+    <title>patient List - NZ Healthcare</title>
 	<link rel="stylesheet" href="{% static 'referrals/home.css' %}">
 	<link rel="icon" type="image/x-icon" href="{% static 'nz-healthcare-logo.png' %}">
 </head>
@@ -27,7 +27,7 @@
 				<div class="list-div">
 					{% if user|has_group:"Doctors" %}
 						<table>
-							{% if persons %} 		
+							{% if patients %} 		
 								<tr>
 									<th>ID</th>
 									<th>Name</th>
@@ -36,16 +36,16 @@
 							{% else %}	
 								<h1>No Patients</h1>
 							{% endif %}
-							{% for person in persons %}
-								<tr class="tr-highlight" onclick="window.location.href='{% url 'person_detail' pk=person.pk %}'"; id="add-patient" style="cursor: pointer;">
-									<td> {{ person.pk }}</td>
-									<td> {{ person.first_name }} {{ person.last_name }}</td>
-									<td> {{ person.date_of_birth }}</td>
+							{% for patient in patients %}
+								<tr class="tr-highlight" onclick="window.location.href='{% url 'patient_detail' pk=patient.pk %}'"; id="add-patient" style="cursor: pointer;">
+									<td> {{ patient.pk }}</td>
+									<td> {{ patient.first_name }} {{ patient.last_name }}</td>
+									<td> {{ patient.date_of_birth }}</td>
 								</tr>
 							{% endfor %}
 						</table>
 						<div class="list-buttons">
-							<a href="{% url 'doctor_add_person_new' %}"><button>Add a Patient</button></a>	
+							<a href="{% url 'doctor_add_patient_new' %}"><button>Add a Patient</button></a>	
 						</div>
 					{% endif %}
 				</div>

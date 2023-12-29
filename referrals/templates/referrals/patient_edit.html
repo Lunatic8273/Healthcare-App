@@ -1,10 +1,11 @@
 {% load static %}
+{% load has_group %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Person - NZ Healthcare</title>
+    <title>Edit patient - NZ Healthcare</title>
     <link rel="stylesheet" href="{% static 'referrals/home.css' %}">
 	<link rel="icon" type="image/x-icon" href="{% static 'nz-healthcare-logo.png' %}">
 </head>
@@ -13,18 +14,22 @@
 		<div class="content-wrap">
 			{% include 'header-base.html' %}
 			<header>
-				<h1>New Patient</h1>
+				<h1>Edit Details</h1>
 			</header>
 
 			<main>
 				<div class="list-div">
-					<form class="edit-details" method="post" enctype="multipart/form-data">
+					<form method="post" enctype="multipart/form-data">
 						{% csrf_token %}
 						{{ form.as_p }}
 						<div class="list-buttons">
 							<a><button type="submit">Save changes</button></a>
-							<a id="cancel-btn" href="{% url 'person_list' %}"><button type="button">Cancel</button></a>
-						</div>	
+							{% if user|has_group:"Patients" %}
+								<a id="cancel-btn" href="{% url 'patient_profile' %}"><button type="button">Cancel</button></a>
+							{% elif user|has_group:"Doctors" %}
+								<a id="cancel-btn" href="{% url 'patient_detail'  pk=patient.pk %}"><button type="button">Cancel</button></a>
+							{% endif %}
+						</div>
 					</form>
 				</div>
 			</main>

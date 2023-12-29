@@ -26,7 +26,7 @@
 				{% if doctor.user == user %}
 					<div class="list-buttons detail-list-buttons">
 						<a href="{% url 'edit_doctor' %}"><button>Edit Details</button></a>
-						<a href="{% url 'my_person_list' %}"><button>My Patients</button></a>
+						<a href="{% url 'my_patient_list' %}"><button>My Patients</button></a>
 						<a href="{% url 'my_referral_list' %}"><button>My Referrals</button></a>
 					</div>
 				{% else %}

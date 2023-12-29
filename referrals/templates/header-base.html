@@ -11,7 +11,7 @@
 			{% if user|has_group:"Receptionists" %}
 				<li><a href="{% url 'home' %}">Home</a></li>
 				<li><a href="{% url 'our_staff' %}">Staff</a></li>
-				<li><a href="{% url 'person_list' %}">Patient list</a></li>
+				<li><a href="{% url 'patient_list' %}">Patient list</a></li>
 				<li><a href="{% url 'referral_list' %}">Referrals</a></li>
 				<li><a href="{% url 'admin:index' %}">Admin</a></li>
 				<li><a href="{% url 'logout' %}">Logout</a></li>	
@@ -23,13 +23,13 @@
 				<li><a href="{% url 'logout' %}">Logout</a></li>	
 			{% elif user|has_group:"Doctors" %}
 				<li><a href="{% url 'my_doctor_page' %}">{{user.first_name}} {{user.last_name}}</a></li>
-				<li><a href="{% url 'person_list' %}">Patient list</a></li>
+				<li><a href="{% url 'patient_list' %}">Patient list</a></li>
 				<li><a href="{% url 'referral_list' %}">Referrals</a></li>
 				<li><a href="{% url 'logout' %}">Logout</a></li>	
 			{% elif user.is_staff %}
 				<li><a href="{% url 'home' %}">Home</a></li>
 				<li><a href="{% url 'our_staff' %}">Staff</a></li>
-				<li><a href="{% url 'person_list' %}">Patient list</a></li>
+				<li><a href="{% url 'patient_list' %}">Patient list</a></li>
 				<li><a href="{% url 'referral_list' %}">Referrals</a></li>
 				<li><a href="{% url 'admin:index' %}">Admin</a></li>
 				<li><a href="{% url 'logout' %}">Logout</a></li>	

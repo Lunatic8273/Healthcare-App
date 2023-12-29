@@ -49,7 +49,7 @@ def patient_cancel(request):
 @login_required
 def my_patient_list(request):
     doctor = get_object_or_404(Doctor, user=request.user)
-    patients = patient.objects.filter(GP=doctor.id)
+    patients = Patient.objects.filter(GP=doctor.id)
     return render(request, 'referrals/my_patient_list.html', {'doctor':doctor, 'patients': patients})
 
 @login_required
@@ -189,7 +189,7 @@ def my_referral_list(request):
 @login_required
 def referral_detail(request, referral_id):
     referral = get_object_or_404(Referral, id=referral_id)
-    patient = get_object_or_404(patient, id=referral.patient.id)
+    patient = get_object_or_404(Patient, id=referral.patient.id)
     return render(request, 'referrals/referral_detail.html', {'patient': patient, 'referral': referral})
     
 @login_required

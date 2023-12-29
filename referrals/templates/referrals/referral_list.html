@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Person List - NZ Healthcare</title>
+    <title>patient List - NZ Healthcare</title>
 	<link rel="stylesheet" href="{% static 'referrals/home.css' %}">
 	<link rel="icon" type="image/x-icon" href="{% static 'nz-healthcare-logo.png' %}">
 </head>
@@ -42,7 +42,7 @@
 										<th>Referral <br> <p>(Click to Open)</p></th>
 										<td role="cell"> {{ referral.pk }}</td>
 										<td role="cell"> {{ referral.referrer }}</td>
-										<td role="cell"> {{ referral.person.first_name }} {{ referral.person.last_name }} </td>
+										<td role="cell"> {{ referral.patient.first_name }} {{ referral.patient.last_name }} </td>
 										<td role="cell"> {{ referral.referral_date }} </td>
 									</tr>
 								{% endfor %}

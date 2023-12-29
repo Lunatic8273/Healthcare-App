@@ -26,7 +26,7 @@
 							</tr>
 							<tr>
 								<th style="text-align:right">Patient:</th>
-								<td style="text-align:left">{{ person.first_name }} {{ person.last_name }}</td>
+								<td style="text-align:left">{{ patient.first_name }} {{ patient.last_name }}</td>
 							</tr>
 							<tr>
 								<th style="text-align:right">Referrer:</th>
@@ -62,15 +62,19 @@
 					</div>
 					{% if user|has_group:"Doctors" %}
 						<div class="list-buttons">
-							<a href="{% url 'global_referral_edit' person_id=person.pk referral_id=referral.pk %}"><button>Edit Referral</button></a>
-							<a href="{% url 'person_detail' pk=person.pk %}"><button>Patient Details</button></a>
+							<a href="{% url 'global_referral_edit' patient_id=patient.pk referral_id=referral.pk %}"><button>Edit Referral</button></a>
+							<a href="{% url 'patient_detail' pk=patient.pk %}"><button>Patient Details</button></a>
 							<a href="{% url 'referral_list' %}"><button>Referral List</button></a>
+						</div>
+					{% elif user|has_group:"Patients" %}
+						<div class="list-buttons">
+							<a href="{% url 'patient_profile' %}"><button>Back</button></a>
 						</div>
 					{% elif user.is_staff %}
 						<div class="list-buttons">
-							<a href="{% url 'global_referral_edit' person_id=person.pk referral_id=referral.pk %}"><button>Edit Referral</button></a>
-							<a href="{% url 'referral_delete' person_id=person.pk referral_id=referral.pk %}"><button>Delete Referral</button></a>
-							<a href="{% url 'person_detail' pk=person.pk %}"><button>Patient Details</button></a>
+							<a href="{% url 'global_referral_edit' patient_id=patient.pk referral_id=referral.pk %}"><button>Edit Referral</button></a>
+							<a href="{% url 'referral_delete' patient_id=patient.pk referral_id=referral.pk %}"><button>Delete Referral</button></a>
+							<a href="{% url 'patient_detail' pk=patient.pk %}"><button>Patient Details</button></a>
 							<a href="{% url 'referral_list' %}"><button>Referral List</button></a>
 						</div>
 					{% endif %}

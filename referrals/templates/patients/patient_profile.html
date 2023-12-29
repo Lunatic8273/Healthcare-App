@@ -15,7 +15,7 @@
 		<div class="content-wrap">
 			{% include 'header-base.html' %}
 			<header>
-				<h1>Patient: {{ person.first_name }} {{ person.last_name }}</h1>
+				<h1>Patient: {{ patient.first_name }} {{ patient.last_name }}</h1>
 			</header>
 			<main>
 				<div class="details-content">
@@ -24,27 +24,27 @@
 						<table id="patient-details-table">
 							<tr>
 								<th>Patient Name:</th>
-								<td>{{ person.first_name }} {{ person.last_name }}</td>
+								<td>{{ patient.first_name }} {{ patient.last_name }}</td>
 							</tr>
 							<tr>
 								<th>Phone Number:</th>
-								<td>{{ person.phone_number }}</td>
+								<td>{{ patient.phone_number }}</td>
 							</tr>
 							<tr>
 								<th>Date of Birth:</th>
-								<td>{{ person.date_of_birth }}</td>
+								<td>{{ patient.date_of_birth }}</td>
 							</tr>
 							<tr>
 								<th>Patient's GP:</th>
-								<td>{{ person.GP }}</td>
+								<td>{{ patient.GP }}</td>
 							</tr>
 						</table>
 						<div class="list-buttons detail-list-buttons">
 							{% if user|has_group:"Doctors" %}
-								<a href="{% url 'person_edit' pk=person.pk %}"><button>Edit Details</button></a>
-								<a href="{% url 'person_delete' pk=person.pk %}"><button>Delete Patient</button></a>
+								<a href="{% url 'patient_edit' pk=patient.pk %}"><button>Edit Details</button></a>
+								<a href="{% url 'patient_delete' pk=patient.pk %}"><button>Delete Patient</button></a>
 							{% elif user|has_group:"Patients" %}
-								<a href="{% url 'patient_person_edit' pk=person.pk %}"><button>Edit Details</button></a>
+								<a href="{% url 'patient_patient_edit' pk=patient.pk %}"><button>Edit Details</button></a>
 							{% endif %} 
 						</div>
 					</div>
@@ -74,8 +74,8 @@
 						</table>
 						<div class="list-buttons detail-list-buttons">
 							{% if user|has_group:"Doctors" %}
-								<a href="{% url 'patient_referral_new' person_id=person.pk%}"><button>Add a referral</button></a>
-								<a href="{% url 'person_list' %}"><button>Back to Patient List</button></a>
+								<a href="{% url 'patient_referral_new' patient_id=patient.pk%}"><button>Add a referral</button></a>
+								<a href="{% url 'patient_list' %}"><button>Back to Patient List</button></a>
 							{% else %}
 								<a href="{% url 'home' %}"><button>Home</button></a>
 							{% endif %} 
